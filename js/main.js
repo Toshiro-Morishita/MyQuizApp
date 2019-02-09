@@ -58,9 +58,7 @@
         if (this.classList.contains('disabled')) {
           return;
         }
-        // setQuiz();
         if (currentNum === quizSet.length) {
-          // console.log('score: ' + score + ' / ' + quizSet.length);
           scoreLabel.textContent = 'Score: ' + score + ' / ' + quizSet.length;
           result.classList.add('show')
         } else {
