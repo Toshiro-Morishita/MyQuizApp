@@ -8,8 +8,8 @@
 
   let quizSet = [
     {q: 'What is A?', a: ['A0', 'A1', 'A2']},
-    {q: 'What is B?', b: ['b0', 'b1', 'b2']},
-    {q: 'What is C?', c: ['c0', 'c1', 'c2']},
+    {q: 'What is B?', a: ['B0', 'B1', 'B2']},
+    {q: 'What is C?', a: ['C0', 'C1', 'C2']}
   ];
 
   let currentNum = 0;
@@ -29,12 +29,16 @@
   }
 
   function setQuiz() {
+    let i;
     question.textContent = quizSet[currentNum].q;
     shuffledAnswers = shuffle(quizSet[currentNum].a.slice());
-    answers[0].textContent = shuffledAnswers[0];
-    answers[1].textContent = shuffledAnswers[1];
-    answers[2].textContent = shuffledAnswers[2];
     isAnswered = false;
+    for (i = 0; i < answers.length; i++) {
+      answers[i].classList.remove('correct');
+      answers[i].classList.remove('wrong');
+      answers[i].textContent = shuffledAnswers[i];
+    }
+    btn.classList.add('disabled');
   }
 
   function setEvents() {
@@ -43,8 +47,14 @@
       answers[i].addEventListener('click', function() {
         checkAnswer(this);
       });
+      }
+      btn.addEventListener('click', function() {
+        if (this.classList.contains('disabled')) {
+          return;
+        }
+        setQuiz();
+      });
     }
-  }
 
   function checkAnswer(node) {
     if (isAnswered) {
@@ -52,17 +62,17 @@
     }
     isAnswered = true;
     if (node.textContent === quizSet[currentNum].a[0]) {
-      node.textContent += ' ... Correct!'
+      node.textContent += ' ... Correct!';
       node.classList.add('correct');
     } else {
       node.textContent += ' ... Wrong!';
-      node.classList.add('wrong');    }
-  }
+      node.classList.add('wrong');
+    }
+  btn.classList.remove('disabled');
+  currentNum++;
+}
 
   setQuiz();
-  setEvents()
-
-
-
+  setEvents();
 
 })();
