@@ -5,6 +5,8 @@
   let btn = document.getElementById('btn');
   let answers = document.querySelectorAll('#answers > li');
   let shuffledAnswers;
+  let result = document.getElementById('result');
+  let scoreLabel = document.querySelector('#result > p')
 
   let quizSet = [
     {q: 'What is A?', a: ['A0', 'A1', 'A2']},
@@ -14,6 +16,7 @@
 
   let currentNum = 0;
   let isAnswered;
+  let score = 0;
 
   function shuffle(arr) {
     let i;
@@ -39,6 +42,9 @@
       answers[i].textContent = shuffledAnswers[i];
     }
     btn.classList.add('disabled');
+    if (currentNum === quizSet.length - 1) {
+      btn.textContent = 'Show score';
+    }
   }
 
   function setEvents() {
@@ -52,7 +58,12 @@
         if (this.classList.contains('disabled')) {
           return;
         }
-        setQuiz();
+        if (currentNum === quizSet.length) {
+          scoreLabel.textContent = 'Score: ' + score + ' / ' + quizSet.length;
+          result.classList.add('show')
+        } else {
+          setQuiz();
+        }
       });
     }
 
@@ -64,6 +75,7 @@
     if (node.textContent === quizSet[currentNum].a[0]) {
       node.textContent += ' ... Correct!';
       node.classList.add('correct');
+      score++;
     } else {
       node.textContent += ' ... Wrong!';
       node.classList.add('wrong');
